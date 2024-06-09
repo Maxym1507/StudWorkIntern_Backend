@@ -12,8 +12,8 @@ using StudWorkIntern_Backend.Models;
 namespace StudWorkIntern_Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240605154510_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240605220554_UpdateDeleteBehavior")]
+    partial class UpdateDeleteBehavior
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,11 +197,13 @@ namespace StudWorkIntern_Backend.Migrations
                 {
                     b.HasOne("StudWorkIntern_Backend.Models.Internship", "Internship")
                         .WithMany("Applications")
-                        .HasForeignKey("InternshipId");
+                        .HasForeignKey("InternshipId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("StudWorkIntern_Backend.Models.JobPosting", "JobPosting")
                         .WithMany("Applications")
-                        .HasForeignKey("JobPostingId");
+                        .HasForeignKey("JobPostingId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("StudWorkIntern_Backend.Models.Student", "Student")
                         .WithMany("Applications")

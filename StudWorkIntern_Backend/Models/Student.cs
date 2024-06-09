@@ -12,5 +12,4 @@ namespace StudWorkIntern_Backend.Models
         public string ResumeUrl { get; set; }
         public ICollection<Application>? Applications { get; set; }
     }
-
 }

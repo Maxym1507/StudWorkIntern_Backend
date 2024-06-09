@@ -10,7 +10,7 @@
         public DateTime EndDate { get; set; }
         public int EmployerId { get; set; }
         public Employer Employer { get; set; }
-        public ICollection<Application> Applications { get; set; }
+        public ICollection<Application>? Applications { get; set; }
     }
 
 }

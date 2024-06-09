@@ -30,26 +30,31 @@ namespace StudWorkIntern_Backend.Models
             modelBuilder.Entity<Employer>()
                 .HasMany(e => e.JobPostings)
                 .WithOne(jp => jp.Employer)
-                .HasForeignKey(jp => jp.EmployerId);
+                .HasForeignKey(jp => jp.EmployerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Зв'язок між Employer і Internship
             modelBuilder.Entity<Employer>()
                 .HasMany(e => e.Internships)
                 .WithOne(i => i.Employer)
-                .HasForeignKey(i => i.EmployerId);
+                .HasForeignKey(i => i.EmployerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Зв'язок між JobPosting і Application
             modelBuilder.Entity<JobPosting>()
                 .HasMany(jp => jp.Applications)
                 .WithOne(a => a.JobPosting)
-                .HasForeignKey(a => a.JobPostingId);
+                .HasForeignKey(a => a.JobPostingId)
+                .OnDelete(DeleteBehavior.NoAction); // Змінено
 
             // Зв'язок між Internship і Application
             modelBuilder.Entity<Internship>()
                 .HasMany(i => i.Applications)
                 .WithOne(a => a.Internship)
-                .HasForeignKey(a => a.InternshipId);
+                .HasForeignKey(a => a.InternshipId)
+                .OnDelete(DeleteBehavior.NoAction); // Змінено
         }
+
     }
 
 }

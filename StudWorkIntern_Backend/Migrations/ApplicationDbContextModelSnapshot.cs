@@ -194,11 +194,13 @@ namespace StudWorkIntern_Backend.Migrations
                 {
                     b.HasOne("StudWorkIntern_Backend.Models.Internship", "Internship")
                         .WithMany("Applications")
-                        .HasForeignKey("InternshipId");
+                        .HasForeignKey("InternshipId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("StudWorkIntern_Backend.Models.JobPosting", "JobPosting")
                         .WithMany("Applications")
-                        .HasForeignKey("JobPostingId");
+                        .HasForeignKey("JobPostingId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("StudWorkIntern_Backend.Models.Student", "Student")
                         .WithMany("Applications")
