@@ -68,14 +68,48 @@ public class ApplicationsController : ControllerBase
     }
 
     // POST: api/Applications
+    //[HttpPost]
+    //public async Task<ActionResult<Application>> CreateApplication(Application application)
+    //{
+    //    _context.Applications.Add(application);
+    //    await _context.SaveChangesAsync();
+
+    //    return CreatedAtAction("GetApplicationById", new { id = application.ApplicationId }, application);
+    //}
+
     [HttpPost]
     public async Task<ActionResult<Application>> CreateApplication(Application application)
     {
+        var student = await _context.Students.FindAsync(application.StudentId);
+        if (student == null)
+        {
+            return NotFound("Student not found.");
+        }
+
+        if (application.JobPostingId.HasValue)
+        {
+            var jobPosting = await _context.JobPostings.FindAsync(application.JobPostingId.Value);
+            if (jobPosting == null)
+            {
+                return NotFound("Job posting not found.");
+            }
+        }
+
+        if (application.InternshipId.HasValue)
+        {
+            var internship = await _context.Internships.FindAsync(application.InternshipId.Value);
+            if (internship == null)
+            {
+                return NotFound("Internship not found.");
+            }
+        }
+
         _context.Applications.Add(application);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetApplicationById", new { id = application.ApplicationId }, application);
+        return CreatedAtAction(nameof(GetApplicationById), new { id = application.ApplicationId }, application);
     }
+
 
     // DELETE: api/Applications/5
     [HttpDelete("{id}")]

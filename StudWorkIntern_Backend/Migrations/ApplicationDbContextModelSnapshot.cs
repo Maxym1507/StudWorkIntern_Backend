@@ -133,15 +133,9 @@ namespace StudWorkIntern_Backend.Migrations
                     b.Property<int>("EmployerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PostedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -198,9 +192,8 @@ namespace StudWorkIntern_Backend.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("StudWorkIntern_Backend.Models.JobPosting", "JobPosting")
-                        .WithMany("Applications")
-                        .HasForeignKey("JobPostingId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany()
+                        .HasForeignKey("JobPostingId");
 
                     b.HasOne("StudWorkIntern_Backend.Models.Student", "Student")
                         .WithMany("Applications")
@@ -228,13 +221,11 @@ namespace StudWorkIntern_Backend.Migrations
 
             modelBuilder.Entity("StudWorkIntern_Backend.Models.JobPosting", b =>
                 {
-                    b.HasOne("StudWorkIntern_Backend.Models.Employer", "Employer")
+                    b.HasOne("StudWorkIntern_Backend.Models.Employer", null)
                         .WithMany("JobPostings")
                         .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("StudWorkIntern_Backend.Models.Employer", b =>
@@ -245,11 +236,6 @@ namespace StudWorkIntern_Backend.Migrations
                 });
 
             modelBuilder.Entity("StudWorkIntern_Backend.Models.Internship", b =>
-                {
-                    b.Navigation("Applications");
-                });
-
-            modelBuilder.Entity("StudWorkIntern_Backend.Models.JobPosting", b =>
                 {
                     b.Navigation("Applications");
                 });
