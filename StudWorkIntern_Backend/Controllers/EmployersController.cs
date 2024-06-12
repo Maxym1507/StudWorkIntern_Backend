@@ -23,11 +23,13 @@ public class EmployersController : ControllerBase
         return await _context.Employers.ToListAsync();
     }
 
-    // GET: api/Employers/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Employer>> GetEmployerById(int id)
     {
-        var employer = await _context.Employers.FindAsync(id);
+        var employer = await _context.Employers
+            .Include(e => e.JobPostings)
+            .Include(e => e.Internships)
+            .FirstOrDefaultAsync(e => e.EmployerId == id);
 
         if (employer == null)
         {
@@ -36,6 +38,28 @@ public class EmployersController : ControllerBase
 
         return employer;
     }
+
+    [HttpGet("{id}/jobpostings")]
+    public async Task<ActionResult<IEnumerable<JobPosting>>> GetJobPostingsForEmployer(int id)
+    {
+        var jobPostings = await _context.JobPostings
+            .Where(jp => jp.EmployerId == id)
+            .ToListAsync();
+
+        return jobPostings;
+    }
+
+    [HttpGet("{id}/internships")]
+    public async Task<ActionResult<IEnumerable<Internship>>> GetInternshipsForEmployer(int id)
+    {
+        var internships = await _context.Internships
+            .Where(i => i.EmployerId == id)
+            .ToListAsync();
+
+        return internships;
+    }
+
+
 
     // PUT: api/Employers/5
     [HttpPut("{id}")]
